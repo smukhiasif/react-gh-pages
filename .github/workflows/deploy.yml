@@ -43,7 +43,7 @@ jobs:
       #     git config user.email "github-actions@github.com"
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@4
+        uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifact_name: 'github-pages'
