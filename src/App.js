@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          This React js generated page CI/CD with github actions!
+          Welcome to rintu Bhai
         </p>
         <a
           className="App-link"
