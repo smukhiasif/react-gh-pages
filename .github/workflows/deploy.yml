@@ -5,18 +5,23 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false  # Important
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -26,13 +31,23 @@ jobs:
       - name: Build React App
         run: npm run build
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+      - name: Upload Artifacts
+        uses: actions/upload-pages-artifacts@v4
+        with: 
+          name: 'github-pages'
+          path: build
+
+      # - name: Configure Git
+      #   run: |
+      #     git config user.name "github-actions"
+      #     git config user.email "github-actions@github.com"
 
       - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npx gh-pages -d build -u "github-actions <github-actions@github.com>" -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+        uses: actions/deploy-pages@4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifact_name: 'github-pages'
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # run: |
+        #   npx gh-pages -d build -u "github-actions <github-actions@github.com>" -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
